@@ -11,6 +11,8 @@ sequelize.sync();
 
 app.use(bodyParser.json());
 
+app.use(require('../middleware/headers'));
+
 app.use('/test', test);
 
 app.use('/api/users', user);

@@ -7,15 +7,15 @@ var TestModel = sequelize.import('../models/test');
  *  GET: Get simple message from server
  ******************************/
 
-router.get('/helloclient', function (req,res) {
+router.get('/helloclient', (req,res) => {
     res.send('This is a message from the server to the client.')
 });
 
-router.post('/one', function(req,res){
+router.post('/one', (req,res) => {
     res.send("Got a post request")
 });
 
-router.post('/two', function(req,res) {
+router.post('/two', (req,res) => {
     console.log(req.body);
     let testData = "Test data fro endpoint two";
 
@@ -26,7 +26,7 @@ router.post('/two', function(req,res) {
         res.send("Test two went through!")
     });
     
-router.post('/three', function(req,res) {
+router.post('/three', (req,res) => {
     var testData = req.body.testdata.item;
     TestModel
         .create({
@@ -35,62 +35,78 @@ router.post('/three', function(req,res) {
         res.send("Test three went through!")
 })
 
-router.post('/four', function(req,res) {
+router.post('/four', (req,res) => {
     var testData = req.body.testdata.item;
     TestModel
         .create({
             testdata: testData
         })
         .then(
-            function () {
+            () => {
                 res.send("Test 4 went through!");
             }
         );
 });
-router.post('/five', function(req,res) {
+router.post('/five', (req,res) => {
     var testData = req.body.testdata.item;
     TestModel
         .create({
             testdata: testData
         })
         .then(
-            function message(data) {
+            (data) => { 
                 res.send(data);
             }
         );
 });
 
-router.post('/six', function (req, res) {
+router.post('/six', (req, res) => {
     var testData = req.body.testdata.item;
     TestModel
       .create({
         testdata: testData
       })
       .then(
-        function message(testdata) {
-          res.json({ //1
-            testdata: testdata  //2
+        (testdata) => {
+          res.json({
+            testdata: testdata 
           });
         }
       );
   });
 
-  router.post('/seven', function(req,res) {
+  router.post('/seven', (req,res) => {
       var testData = req.body.testdata.item;
       TestModel
       .create({
           testdata: testData
       })
       .then(
-          function createSuccess(testdata) {
+          createSuccess = (testdata) => {
               res.json({
                   testdata: testdata
               });
           },
-          function createError(err) {
+          createError = (err) => {
               res.send(500, err.message);
           }
       );
+  });
+
+  router.get('/one', function(req, res) {
+      TestModel
+        .findAll({
+            attributes: ['id', 'testdata']
+        })
+        .then(
+            function findAllSuccess(data) {
+                console.log("Controller data:", data);
+                res.json(data);
+            },
+            function findAllError(err) {
+                res.send(500, err.message);
+            }
+        );
   });
 
 module.exports = router;
