@@ -81,7 +81,7 @@ router.put('/update/:id', (req,res) => {
         },
         {where: {id: data}}
         ).then(
-            updateSuccess(updatedLog) {
+            updateSuccess = (updatedLog) => {
                 res.json({
                     authtestdata: authtestdata
                 });
