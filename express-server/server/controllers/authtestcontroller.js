@@ -3,15 +3,20 @@ var sequelize = require('../db');
 var User = sequelize.import('../models/user');
 var AuthTestModel = sequelize.import('../models/authtest');
 
+// AuthTestModel.sync({force:true}); changed column typo error what it does is actually drops the table then generated a new one with correct attributes
+
 router.get('/getall', (req,res) => {
     var userid = req.user.id;
 
     AuthTestModel
         .findAll({
-            wher: {owner: userid }
+            where: {owner: userid }
         })
         .then(
             findAllSuccess = (data) => {
+                res.json(data);
+            },
+            findAllError = (err) => {
                 res.send(500, err.message);
             }
         );

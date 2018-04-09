@@ -10,11 +10,11 @@ var bodyParser = require('body-parser');
 
 sequelize.sync();
 app.use(bodyParser.json());
-app.use(require('../middleware/headers'));
+app.use(require('./middleware/headers'));
 app.use('/test', test);
 app.use('/api/users', user);
 app.use(require('./middleware/validate-session'));
-app.use('/auttest', authTest);
+app.use('/authtest', authTest);
 app.listen(3000, function() {
     console.log('Hey Man');
 });
